@@ -2,10 +2,12 @@ NAME = inception
 COMPOSE = docker compose
 SRC_DIR = srcs
 COMPOSE_FILE = $(SRC_DIR)/docker-compose.yml
+DATA_DIR = /home/tmillot/data
 
 all: up
 
 up:
+	mkdir -p $(DATA_DIR)/mariadb $(DATA_DIR)/wordpress
 	$(COMPOSE) -f $(COMPOSE_FILE) up -d --build
 
 down:
@@ -21,9 +23,12 @@ restart: down up
 
 clean:
 	$(COMPOSE) -f $(COMPOSE_FILE) down -v
+	sudo rm -rf $(DATA_DIR)/mariadb/*
+	sudo rm -rf $(DATA_DIR)/wordpress/*
 
 fclean: clean
 	docker system prune -af
+	sudo rm -rf $(DATA_DIR)
 
 re: fclean up
 
