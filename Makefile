@@ -22,7 +22,7 @@ start:
 restart: down up
 
 clean:
-	$(COMPOSE) -f $(COMPOSE_FILE) down -v
+	$(COMPOSE) -f $(COMPOSE_FILE) down -v --rmi all
 	sudo rm -rf $(DATA_DIR)/mariadb/*
 	sudo rm -rf $(DATA_DIR)/wordpress/*
 

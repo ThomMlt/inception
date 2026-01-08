@@ -4,7 +4,6 @@ set -e
 
 cd /var/www/wordpress
 
-# Wait for MariaDB to be ready
 echo "Waiting for MariaDB..."
 for i in $(seq 1 60); do
     if mysqladmin ping -h mariadb -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" --silent 2>/dev/null; then
@@ -18,11 +17,9 @@ for i in $(seq 1 60); do
     sleep 1
 done
 
-# Download WordPress if not present
 if [ ! -f wp-config.php ]; then
     echo "Downloading WordPress..."
     
-    # Remove any partial downloads
     rm -rf /var/www/wordpress/*
     
     wp core download --allow-root
@@ -55,10 +52,8 @@ else
     echo "WordPress already installed, skipping installation"
 fi
 
-# Proper permissions
 chown -R www-data:www-data /var/www/wordpress
 chmod -R 755 /var/www/wordpress
 
 echo "Starting PHP-FPM..."
-# Start PHP-FPM in foreground
 exec php-fpm8.2 -F

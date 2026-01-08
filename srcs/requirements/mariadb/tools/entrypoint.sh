@@ -2,14 +2,11 @@
 
 set -e
 
-# Ensure correct ownership
 chown -R mysql:mysql /var/lib/mysql /run/mysqld
 
-# Check if database needs initialization by looking for specific database, not just mysql dir
 if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
     echo "Initializing MariaDB database..."
     
-    # Remove auto-initialized mysql if it exists without our database
     if [ -d "/var/lib/mysql/mysql" ]; then
         echo "Removing auto-generated mysql directory..."
         rm -rf /var/lib/mysql/*
@@ -19,11 +16,9 @@ if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
 
     echo "Starting temporary MariaDB instance..."
     
-    # Start MariaDB temporarily in background
     mysqld --user=mysql --skip-networking --socket=/tmp/mysql_init.sock &
     pid="$!"
     
-    # Wait for MariaDB to be ready
     echo "Waiting for MariaDB to start..."
     for i in $(seq 1 30); do
         if mysqladmin ping --socket=/tmp/mysql_init.sock --silent 2>/dev/null; then
@@ -33,7 +28,6 @@ if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
         sleep 1
     done
     
-    # Configure database
     echo "Creating database and users..."
     mysql --socket=/tmp/mysql_init.sock <<EOF
 DELETE FROM mysql.user WHERE User='';
@@ -47,7 +41,6 @@ EOF
     
     echo "Database configuration complete!"
     
-    # Stop temporary instance
     mysqladmin --socket=/tmp/mysql_init.sock shutdown
     wait "$pid"
     
@@ -56,6 +49,5 @@ else
     echo "MariaDB already initialized, skipping initialization"
 fi
 
-# Start MariaDB properly (PID 1)
 echo "Starting MariaDB..."
 exec mysqld --user=mysql

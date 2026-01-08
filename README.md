@@ -91,18 +91,18 @@ Legend:
    
    The project uses a `.env` file located in `srcs/.env` with the following variables:
    ```env
-   DOMAIN_NAME=tmillot.42.fr
-   MYSQL_DATABASE=wordpress
-   MYSQL_USER=wp_user
-   MYSQL_PASSWORD=wp_password
-   MYSQL_ROOT_PASSWORD=root_password
-   WP_TITLE=Inception
-   WP_ADMIN_USER=wp_admin
-   WP_ADMIN_PASSWORD=admin_password
-   WP_ADMIN_EMAIL=admin@example.com
-   WP_USER=wp_user
-   WP_USER_PASSWORD=user_password
-   WP_USER_EMAIL=user@example.com
+   DOMAIN_NAME=
+   MYSQL_DATABASE=
+   MYSQL_USER=
+   MYSQL_PASSWORD=
+   MYSQL_ROOT_PASSWORD=
+   WP_TITLE=
+   WP_ADMIN_USER=
+   WP_ADMIN_PASSWORD=
+   WP_ADMIN_EMAIL=
+   WP_USER=
+   WP_USER_PASSWORD=
+   WP_USER_EMAIL=
    ```
 
 4. **Create data directories:**

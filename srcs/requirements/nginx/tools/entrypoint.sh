@@ -16,7 +16,6 @@ echo "Configuring NGINX..."
 envsubst '$DOMAIN_NAME' < /etc/nginx/nginx.conf > /tmp/nginx.conf
 mv /tmp/nginx.conf /etc/nginx/nginx.conf
 
-# Test NGINX configuration
 nginx -t
 
 echo "Starting NGINX..."
